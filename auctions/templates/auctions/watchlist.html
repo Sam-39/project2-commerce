@@ -1,0 +1,19 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %} Watchlist {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="mb-0">My Watchlist:</h2>
+        <span class="d-block text-success mb-5">{{number}} item(s)</span>
+
+        {% for auction in watched_auctions %}
+                <div class="row mb-3">
+                    <img src="{{auction.image}}" class="rounded-circle" alt="{{auction.title}}" style="width:40px; height: 40px">
+                    <div class="col-auto d-flex justify-content-center align-items-center">
+                    <a href="{% url 'listing' auction.id %}">{{auction.title}}</a>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+{% endblock %}

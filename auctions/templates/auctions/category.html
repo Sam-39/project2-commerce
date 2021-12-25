@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}{{category}}{% endblock %}
+
+{% block body %}
+<h2 class="ml-3 mb-4">Category: {{category}}</h2>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-lg-2 g-4">
+
+        {% for auction in auctions %}
+        <div class="col mb-4">
+            <div class="card h-100">
+                <div class="row g-0">
+                    <div class="d-flex col-md-5 justify-content-center align-content-center">
+                        <img src="{{auction.image}}" class="card-img rounded-start" alt="{{auction.title}}" style="max-height:225px">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+
+                            <h2 class="card-title d-inline font-weight-bold mr-2"> {{auction.title}}</h2>
+
+                            {% if auction.active %}
+                                <span class="badge bg-success text-light">Active</span>
+                            {% else %}
+                                {% if request.user == auction.best_bidder %}
+                                    <span class="badge bg-warning text-light">Won By You</span>
+                                {% else %}
+                                    <span class="badge bg-danger text-light">Closed</span>
+                                {% endif %}
+                            {% endif %}
+
+                            <small class="d-block text-muted mb-1"><i class="bi bi-person-circle"></i> {{auction.seller}}</small>
+                            <p class="text-muted mb-1">Category: <a href="{% url 'category' auction.category.name %}">{{auction.category}}</a></p>
+                            <p class="card-text mt-2 mb-4">Current Price: <span class="card-price">{{auction.price}}</span> $</p>
+                            <a href="{% url 'listing' auction.id %}" class="btn btn-outline-secondary">See more...</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <div class="alert alert-warning" role="alert">
+                Empty
+            </div>
+        {% endfor %}
+        
+
+    </div>
+</div>
+{% endblock %}

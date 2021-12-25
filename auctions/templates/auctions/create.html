@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Add Listing{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% if alert %}
+    <div class="alert alert-success" role="alert">
+        "{{title}}" was added successfully.
+    </div>
+    {% endif %}
+    <h5>Create a new listing</h5>
+    <br>
+    <form action="{% url 'create' %}" method="POST">
+        {% csrf_token %}
+        <div class="col-lg-8 mb-2">
+            <label for="title" class="form-label">Title:</label>
+            <input name="title" type="text" class="form-control" required>
+        </div>
+        <div class="col-lg-8 mb-2">
+            <label for="discription" class="form-label">Discription:</label>
+            <textarea name="discription" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="col-lg-8 mb-3">
+            <label for="image" class="form-label">Image URL:</label>
+            <input name="image" type="url" class="form-control" required>
+        </div>
+        <div class="form-group col row">
+            <label for="price" class="col-md-auto col-form-label">Starting Bid : </label>
+            <div class="col-lg-2 col-md-3">
+                <input name="price" class=" form-control" type="number" step="0.01" required>
+            </div>
+        </div>
+        <div class="form-group col mb-3">
+            <label for="category" class="form-label">Category:</label>
+            <select name="category" class="ml-5 form-select mb-3" style="height:40px">
+                {% for category in categories %}
+                <option value="{{category.id}}">{{category}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <input type="submit" class="btn btn-primary" value="Add Listing">
+        </div>
+    </form>
+</div>
+{% endblock %}
